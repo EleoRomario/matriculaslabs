@@ -3,8 +3,7 @@ export const alumnos = [
     id: 1,
     name: 'Juan Perez',
     email: 'email',
-    laboratorios: [
-      
+    laboratorios: [      
     ],
   },
   {
