@@ -2,6 +2,7 @@ import { AppRoutes } from "./routers/AppRouter";
 import { Layout } from "./components/Layout/Layout";
 import "./styles/App.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { AuthProvider } from "./auth/context/AuthProvider";
 
 const theme = createTheme({
 	palette: {
@@ -15,11 +16,13 @@ const theme = createTheme({
 });
 function App() {
 	return (
-		<ThemeProvider  theme={theme}>
-			<Layout>
-				<AppRoutes />
-			</Layout>
-		</ThemeProvider>
+		<AuthProvider>
+			<ThemeProvider theme={theme}>
+				<Layout>
+					<AppRoutes />
+				</Layout>
+			</ThemeProvider>
+		</AuthProvider>
 	);
 }
 

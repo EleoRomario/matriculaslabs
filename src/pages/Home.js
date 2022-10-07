@@ -1,24 +1,18 @@
 
-import { Avatar, Box, Button, Card, IconButton, Tooltip, Typography } from "@mui/material";
-import { LogOut, Plus } from "iconoir-react";
+import { Avatar, Box, Button, Card, Typography } from "@mui/material";
+import { Plus } from "iconoir-react";
 import { useNavigate } from "react-router-dom";
-import {useAuthState} from "react-firebase-hooks/auth";
-import { auth, logout } from "../firebase/firebase";
-import { useEffect } from "react";
+import { Logout } from "../components/auth/Logout";
 
 export const Home = () => {
 
   const navigate = useNavigate();
-	const [user, error] = useAuthState(auth);
-	console.log("🚀 ~ file: Home.js ~ line 13 ~ Home ~ user", user)
 
-	useEffect(() => {
-		if (user===null) navigate("/login");
-	}, [user, navigate]);
 
-  const handleMatricula = () => {
+	const handleMatricula = () => {
     navigate("/matricula");
   };
+	
 
   return (
 		<Card
@@ -34,18 +28,7 @@ export const Home = () => {
 				position: "relative",
 			}}
 		>
-			<Tooltip
-				sx={{
-					position: "absolute",
-					top: 10,
-					right: 10,
-				}}
-				title="Cerrar sesión"
-			>
-				<IconButton onClick={logout}>
-					<LogOut />
-				</IconButton>
-			</Tooltip>
+			<Logout />
 			<Box
 				sx={{
 					display: "flex",
