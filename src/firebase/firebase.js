@@ -35,15 +35,7 @@ const signInWithGoogle = async () => {
 		const res = await signInWithPopup(auth, googleProvider);
 		const { displayName, email, photoURL, uid} = res.user;
 		return { displayName, email, photoURL, uid };
-		// const credentials = GoogleAuthProvider.credentialFromResult(res);
-		// const q = query(
-		// 	collection(db, "alumnos"),
-		// 	where("email", "==", user.email)
-		// );
-		// const docs = await getDocs(q);
-		// const userDB = docs.forEach((doc) =>{
-		// 	return doc.data();
-    // });          
+		
 	} catch (err) {
 		return err.message;
 	}
