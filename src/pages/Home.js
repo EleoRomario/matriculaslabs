@@ -1,10 +1,12 @@
 
-import { Avatar, Box, Button, Card, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Paper, Table, TableBody, TableContainer, Typography } from "@mui/material";
+import userEvent from "@testing-library/user-event";
 import { Plus } from "iconoir-react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
 import { Logout } from "../components/auth/Logout";
+import { LaboratorioView } from "../components/Laboratorios/LaboratorioView";
 
 export const Home = () => {
 
@@ -41,7 +43,7 @@ export const Home = () => {
 					alignItems: "center",
 				}}
 			>
-				<Avatar src={photoURL} />
+				<Avatar src={`url("${photoURL}")`} />
 				<Typography variant="h5" component="h1" gutterBottom>
 					{displayName}
 				</Typography>
@@ -53,6 +55,23 @@ export const Home = () => {
 			>
 				Matricularse
 			</Button>
+			<Box>
+				<Typography variant="h6" component="h2" gutterBottom>
+					Laboratorios matriculados
+				</Typography>
+				<TableContainer
+					component={Paper}
+					sx={{ height: "400px", overflowY: "normal" }}
+				>
+					<Table sx={{ minWidth: 400 }} aria-label="simple table">
+						<TableBody>
+							{/* {laboratorios && laboratorios.map((lab, index) => (
+								<LaboratorioView key={index} lab={lab} />
+							))} */}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Box>
 		</Card>
   );
 }

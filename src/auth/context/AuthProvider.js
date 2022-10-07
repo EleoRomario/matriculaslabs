@@ -1,5 +1,10 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { useEffect, useReducer, useState } from "react";
+import {
+	collection,
+	getDocs,
+	query,
+	where,
+} from "firebase/firestore";
+import { useReducer } from "react";
 import { signInWithGoogle, logOut, db } from "../../firebase/firebase";
 import { types } from "../../types/types";
 import { AuthContext } from "./AuthContext";
@@ -19,24 +24,26 @@ const init = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-
 	const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
 	const login = async () => {
 		const result = await signInWithGoogle();
-
 		const q = query(
 			collection(db, "alumnos"),
 			where("email", "==", result.email)
 		);
 		const docs = await getDocs(q);
 		docs.forEach((doc) => {
+			const user = {
+				...result,
+				uid: doc.id,
+			};
 			if (doc.exists()) {
 				dispatch({
 					type: types.login,
 					payload: result,
 				});
-				localStorage.setItem("user", JSON.stringify(result));
+				localStorage.setItem("user", JSON.stringify(user));
 			}
 		});
 	};
