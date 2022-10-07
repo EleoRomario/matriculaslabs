@@ -8,24 +8,34 @@ const initialState = {
   logged: false,
 }
 
+const init = () => {
+  const user = JSON.parse(localStorage.getItem("user"))
+
+  return {
+    logged: !!user,
+    user: user,
+  }
+}
+
 export const AuthProvider = ({children}) => {
 
-  const [ authState, dispatch] =  useReducer( authReducer, initialState )
+  const [ authState, dispatch] =  useReducer( authReducer, initialState, init )
 
   const login = async () => {
-
     const result = await signInWithGoogle();
-
     const action = {
       type: types.login,
       payload: result
     }
+
+    localStorage.setItem("user", JSON.stringify(result))
 
     dispatch(action)
   }
 
   const logout = () => {
     logOut()
+    localStorage.removeItem("user");
     dispatch({
       type: types.logout
     })

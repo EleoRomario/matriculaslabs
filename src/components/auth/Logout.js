@@ -20,7 +20,7 @@ export const Logout = () => {
 			sx={{
 				position: "absolute",
 				top: 10,
-				right: 10,
+				left: 10,
 			}}
 			title="Cerrar sesión"
 		>
