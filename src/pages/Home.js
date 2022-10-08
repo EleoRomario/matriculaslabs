@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
 import { Logout } from "../components/auth/Logout";
 import { LaboratorioView } from "../components/Laboratorios/LaboratorioView";
+import { useMatricula } from "../hooks/useMatricula";
 
 export const Home = () => {
 
@@ -20,7 +21,6 @@ export const Home = () => {
     navigate("/matricula");
   };
 	
-
   return (
 		<Card
 			sx={{
@@ -65,7 +65,7 @@ export const Home = () => {
 				>
 					<Table sx={{ minWidth: 400 }} aria-label="simple table">
 						<TableBody>
-							{/* {laboratorios && laboratorios.map((lab, index) => (
+							{/* {matriculas && matriculas.map((lab, index) => (
 								<LaboratorioView key={index} lab={lab} />
 							))} */}
 						</TableBody>

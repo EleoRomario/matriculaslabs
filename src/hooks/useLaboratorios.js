@@ -28,5 +28,23 @@ export const useLaboratorios = (uid) => {
     getLaboratoriosUser(uid);
   }, [uid]);
 
-	return { laboratorios, labsUser };
+  const [laboratoriosMatriculados, setLaboratoriosMatriculados] = useState([]);
+  console.log("🚀 ~ file: useLaboratorios.js ~ line 32 ~ useLaboratorios ~ laboratoriosMatriculados", laboratoriosMatriculados)
+
+  const matricular = (lab) => {
+    const existe = laboratoriosMatriculados.find(
+      (laboratorio) => laboratorio.curso === lab.curso
+    );
+    console.log("🚀 ~ file: useLaboratorios.js ~ line 38 ~ matricular ~ existe", existe)
+    if (existe === undefined) {
+      setLaboratoriosMatriculados([...laboratoriosMatriculados, lab]);
+    } else {
+      const newLabs = laboratoriosMatriculados.filter(
+        (laboratorio) => laboratorio.curso !== lab.curso
+      );
+      setLaboratoriosMatriculados([...newLabs, lab]);
+    }
+  };
+
+	return { laboratorios, labsUser, matricular};
 };

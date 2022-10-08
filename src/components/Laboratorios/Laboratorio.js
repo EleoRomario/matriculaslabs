@@ -1,4 +1,6 @@
 import {
+	Alert,
+	AlertTitle,
 	Box,
 	FormControl,
 	InputLabel,
@@ -10,11 +12,14 @@ import {
 } from "@mui/material";
 import { grey, red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
+import { useLaboratorios } from "../../hooks/useLaboratorios";
+import { useMatricula } from "../../hooks/useMatricula";
 
-export const Laboratorio = ({ lab, labs }) => {
+export const Laboratorio = ({ lab, labs, matricular }) => {
 	const { laboratorios } = labs;
+	const { grupos, año, curso} = lab;
 
-	const [isMatriculado, setIsMatriculado] = useState(false)
+	const [isMatriculado, setIsMatriculado] = useState(false);
 
 	const matriculado = () => {
 		const existe = laboratorios.find(
@@ -24,12 +29,29 @@ export const Laboratorio = ({ lab, labs }) => {
 	};
 	useEffect(() => {
 		matriculado();
-		}, [laboratorios]);
+	}, []);
+
+	const [grupo, setGrupo] = useState("")
+	const onGrupoChange = ({ target }) => {
+		const { value } = target;
+		setGrupo(value);
+		const isGrupo = grupos.find((g) => g.grupo === value);
+		const { profesor } = isGrupo;
+
+		const newLab = {
+			año,
+			curso,
+			value,
+			profesor,
+		};		
+		matricular(newLab);
+	};
+	
 
 	return (
-		<TableRow>
+		<>
 			{!isMatriculado ? (
-				<>
+				<TableRow>
 					<TableCell>
 						<Typography>{lab.curso}</Typography>
 					</TableCell>
@@ -41,9 +63,9 @@ export const Laboratorio = ({ lab, labs }) => {
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
-								// value={age}
+								value={grupo}
 								label="Grupo"
-								// onChange={handleChange}
+								onChange={onGrupoChange}
 							>
 								{lab.grupos.map((g, index) => (
 									<MenuItem
@@ -80,12 +102,19 @@ export const Laboratorio = ({ lab, labs }) => {
 							</Select>
 						</FormControl>
 					</TableCell>
-				</>
+				</TableRow>
 			) : (
-				<TableCell>
-					<Typography>{lab.curso} Matriculado</Typography>
-				</TableCell>
+				<TableRow>
+					<TableCell colSpan={2}>
+						<Alert severity="success">
+							<AlertTitle sx={{ fontWeight: "600" }}>
+								Matriculado
+							</AlertTitle>{" "}
+							{lab.curso}
+						</Alert>
+					</TableCell>
+				</TableRow>
 			)}
-		</TableRow>
+		</>
 	);
 };

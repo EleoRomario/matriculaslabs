@@ -9,29 +9,31 @@ import {
 	IconButton,
 } from "@mui/material";
 import { ClockOutline, NavArrowLeft, PasteClipboard } from "iconoir-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
 import { Horario } from "../components/Laboratorios/Horario";
 import { Laboratorio } from "../components/Laboratorios/Laboratorio";
 import { useLaboratorios } from "../hooks/useLaboratorios";
+import { useMatricula } from "../hooks/useMatricula";
 
 export const Matricula = () => {
 	const navigate = useNavigate();
-
-	const { user } = useContext(AuthContext);
-
+	
 	const backHome = () => {
 		navigate("/");
 	};
-
-	const { laboratorios, labsUser } = useLaboratorios(user.uid);
-
-
 	const [open, setOpen] = useState(false);
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
+	
+	const { user } = useContext(AuthContext);
+	const { laboratorios, labsUser, matricular } = useLaboratorios(
+		user.uid
+	);
+
+
 
 	return (
 		<Card
@@ -83,6 +85,7 @@ export const Matricula = () => {
 								key={index}
 								lab={lab}
 								labs={labsUser}
+								matricular={matricular}
 							/>
 						))}
 					</TableBody>
