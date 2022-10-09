@@ -9,7 +9,7 @@ import {
 	IconButton,
 } from "@mui/material";
 import { ClockOutline, NavArrowLeft, PasteClipboard } from "iconoir-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
 import { Horario } from "../components/Laboratorios/Horario";
@@ -29,11 +29,10 @@ export const Matricula = () => {
 	};
 	
 	const { user } = useContext(AuthContext);
-	const { laboratorios, labsUser, matricular } = useLaboratorios(
-		user.uid
-	);
+	const { laboratorios, labsUser, matricular, laboratoriosMatriculados } =
+	useLaboratorios(user.uid);
 
-
+	const { onMatricula } = useMatricula();
 
 	return (
 		<Card
@@ -80,7 +79,7 @@ export const Matricula = () => {
 			>
 				<Table sx={{ minWidth: "100%" }} aria-label="simple table">
 					<TableBody>
-						{laboratorios.map((lab, index) => (
+						{laboratorios.length !== 0 && laboratorios.map((lab, index) => (
 							<Laboratorio
 								key={index}
 								lab={lab}
@@ -94,6 +93,7 @@ export const Matricula = () => {
 			<Button
 				variant="contained"
 				endIcon={<PasteClipboard height={20} width={20} />}
+				onClick={() => onMatricula(laboratoriosMatriculados)}
 			>
 				Matricular
 			</Button>

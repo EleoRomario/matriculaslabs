@@ -1,13 +1,10 @@
 
 import { Avatar, Box, Button, Card, Paper, Table, TableBody, TableContainer, Typography } from "@mui/material";
-import userEvent from "@testing-library/user-event";
 import { Plus } from "iconoir-react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
 import { Logout } from "../components/auth/Logout";
-import { LaboratorioView } from "../components/Laboratorios/LaboratorioView";
-import { useMatricula } from "../hooks/useMatricula";
 
 export const Home = () => {
 

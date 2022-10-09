@@ -12,12 +12,12 @@ import {
 } from "@mui/material";
 import { grey, red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
-import { useLaboratorios } from "../../hooks/useLaboratorios";
-import { useMatricula } from "../../hooks/useMatricula";
 
 export const Laboratorio = ({ lab, labs, matricular }) => {
 	const { laboratorios } = labs;
-	const { grupos, año, curso} = lab;
+	const { id, data } = lab;
+	const { grupos, año, curso} = data;
+	console.log("🚀 ~ file: Laboratorio.js ~ line 20 ~ Laboratorio ~ data", data)
 
 	const [isMatriculado, setIsMatriculado] = useState(false);
 
@@ -39,9 +39,10 @@ export const Laboratorio = ({ lab, labs, matricular }) => {
 		const { profesor } = isGrupo;
 
 		const newLab = {
+			id,
 			año,
 			curso,
-			value,
+			grupo: value,
 			profesor,
 		};		
 		matricular(newLab);
@@ -53,7 +54,7 @@ export const Laboratorio = ({ lab, labs, matricular }) => {
 			{!isMatriculado ? (
 				<TableRow>
 					<TableCell>
-						<Typography>{lab.curso}</Typography>
+						<Typography>{curso}</Typography>
 					</TableCell>
 					<TableCell sx={{ width: 150 }}>
 						<FormControl sx={{ m: 1, width: 150 }} size="small">
@@ -67,7 +68,7 @@ export const Laboratorio = ({ lab, labs, matricular }) => {
 								label="Grupo"
 								onChange={onGrupoChange}
 							>
-								{lab.grupos.map((g, index) => (
+								{grupos.map((g, index) => (
 									<MenuItem
 										key={index}
 										value={g.grupo}
@@ -110,7 +111,7 @@ export const Laboratorio = ({ lab, labs, matricular }) => {
 							<AlertTitle sx={{ fontWeight: "600" }}>
 								Matriculado
 							</AlertTitle>{" "}
-							{lab.curso}
+							{curso}
 						</Alert>
 					</TableCell>
 				</TableRow>
