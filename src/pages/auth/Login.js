@@ -1,12 +1,12 @@
 import { Avatar, Box, Button, Card, TextField, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../auth/context/AuthContext";
 
 export const Login = () => {
 const { login, userExist } = useContext(AuthContext)
 
-const { navigate } = useNavigation()
+const { navigate } = useNavigate();
 
 const [cui, setCui] = useState("")
 
