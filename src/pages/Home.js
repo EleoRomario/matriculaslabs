@@ -1,24 +1,41 @@
-
-import { Avatar, Box, Button, Card, Paper, Table, TableBody, TableContainer, Typography } from "@mui/material";
+import {
+	Avatar,
+	Box,
+	Button,
+	Card,
+	Paper,
+	Skeleton,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableRow,
+	Typography,
+} from "@mui/material";
 import { Plus } from "iconoir-react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
 import { Logout } from "../components/auth/Logout";
+import { LaboratorioView } from "../components/Laboratorios/LaboratorioView";
+import { useLaboratorios } from "../hooks/useLaboratorios";
 
 export const Home = () => {
-
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const { user } = useContext(AuthContext);
 
 	const { displayName, photoURL } = user;
 
+	const { labsUser } = useLaboratorios(user.uid);
+
+	const { laboratorios } = labsUser;
+
 	const handleMatricula = () => {
-    navigate("/matricula");
-  };
-	
-  return (
+		navigate("/matricula");
+	};
+
+	return (
 		<Card
 			sx={{
 				height: "95vh",
@@ -62,13 +79,21 @@ export const Home = () => {
 				>
 					<Table sx={{ minWidth: 400 }} aria-label="simple table">
 						<TableBody>
-							{/* {matriculas && matriculas.map((lab, index) => (
-								<LaboratorioView key={index} lab={lab} />
-							))} */}
+							{laboratorios !== undefined ? (
+								laboratorios.map((lab, index) => (
+									<LaboratorioView key={index} lab={lab} />
+								))
+							) : (
+								<TableRow>
+									<TableCell>
+										<Skeleton />
+									</TableCell>
+								</TableRow>
+							)}
 						</TableBody>
 					</Table>
 				</TableContainer>
 			</Box>
 		</Card>
-  );
-}
+	);
+};

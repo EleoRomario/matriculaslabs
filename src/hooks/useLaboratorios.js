@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, onSnapshot, query } from "firebase/firestore";
+import { collection, doc, getDoc, onSnapshot, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase/firebase";
 
@@ -12,8 +12,6 @@ export const useLaboratorios = (uid) => {
     await onSnapshot(q, (querySnapshot) => {
       setLaboratorios(querySnapshot.docs.map((doc) => ({id:doc.id, data: doc.data()})));
     });
-		// const labsSnapshot = await getDocs(collection(db, "Laboratorios"));
-		// labsSnapshot.docs.map((doc) => setLaboratorios([...laboratorios, doc.data()]));
 	};
 
 	const getLaboratoriosUser = async (uid) => {

@@ -82,7 +82,8 @@ export const Matricula = () => {
 						{laboratorios.length !== 0 && laboratorios.map((lab, index) => (
 							<Laboratorio
 								key={index}
-								lab={lab}
+								id={lab.id}
+								lab={lab.data}
 								labs={labsUser}
 								matricular={matricular}
 							/>
