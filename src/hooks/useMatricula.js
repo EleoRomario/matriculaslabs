@@ -5,13 +5,14 @@ import { db } from "../firebase/firebase";
 
 export const useMatricula = () => {
 	const { user } = useContext(AuthContext);
-	const { uid, email, displayName } = user;
+	const { uid, email, displayName,cui } = user;
 
 	const onMatricula = async (laboratorios) => {
 		try {
 			const data = {
 				email,
 				displayName,
+				cui,
 				laboratorios,
 			};
 			const docRef = doc(db, "alumnos", uid);
@@ -24,7 +25,11 @@ export const useMatricula = () => {
 				const { grupos } = docData;
 				grupos.forEach((g) => {
 					if (g.grupo === lab.grupo) {
-						const alumnos = [...g.alumnos, { email, displayName }];
+						
+						const existeAlumno = g.alumnos.find(
+							(alumno) => alumno.displayName === displayName
+						);
+						const alumnos = (existeAlumno === undefined) ? [...g.alumnos, { displayName, email, cui }] : [...g.alumnos];
 						const updateGrupo = {
 							...g,
 							alumnos,

@@ -65,13 +65,13 @@ export const Horario = (props) => {
 													color: grey[400],
 												}}
 											>
-												{horarios.map(({ dia, inicio, fin, curso }) => {
+												{horarios.map(({ dia, inicio, fin, curso },index) => {
 													if (
 														(dia.toString() ===
 														day.toLowerCase()) && ((hora.toString().substring(0, hora.toString().indexOf("-")) === inicio.toString()) || (hora.toString().substring(hora.toString().indexOf("-") + 1, hora.toString().length) === fin.toString()))
 													) {
 														return (
-                              <Alert icon={false} severity="success" sx={{fontSize: 10, padding:1}} >{curso}</Alert>
+                              <Alert key={index} icon={false} severity="success" sx={{fontSize: 10, padding:1}} >{curso}</Alert>
 														);
 													} else {
 														return <></>;
