@@ -11,28 +11,12 @@ import {
 	Typography,
 } from "@mui/material";
 import { grey, red } from "@mui/material/colors";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export const Laboratorio = ({ id, lab, labs, matricular }) => {
-	const { laboratorios } = labs;
+export const Laboratorio = ({ id, lab, matricular, matriculado }) => {
 	const { grupos, año, curso } = lab;
 
-	const [isMatriculado, setIsMatriculado] = useState(false);
-
-	const matriculado = () => {
-		if(laboratorios !== undefined){
-		const existe = laboratorios.find(
-			(laboratorio) => laboratorio.curso === curso
-		);
-		setIsMatriculado(existe === undefined ? false : true);
-	}
-	};
-
-	useEffect(() => {
-		matriculado();
-	}, [laboratorios]);
-
-	const [grupo, setGrupo] = useState("")
+	const [grupo, setGrupo] = useState("");
 
 	const onGrupoChange = ({ target }) => {
 		const { value } = target;
@@ -46,14 +30,13 @@ export const Laboratorio = ({ id, lab, labs, matricular }) => {
 			curso,
 			grupo: value,
 			profesor,
-		};		
+		};
 		matricular(newLab);
 	};
-	
 
 	return (
 		<>
-			{!isMatriculado ? (
+			{!matriculado ? (
 				<TableRow>
 					<TableCell>
 						<Typography>{curso}</Typography>

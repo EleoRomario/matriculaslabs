@@ -51,7 +51,7 @@ export const LaboratorioView = ({ lab }) => {
 					</Typography>
 				</Popover>
 			</TableCell>
-			<TableCell sx={{ width: 150 }}>
+			<TableCell>
 				<Typography sx={{ color: grey[500] }}>
 					Grupo: {lab.grupo}
 				</Typography>

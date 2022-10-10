@@ -32,7 +32,16 @@ export const Matricula = () => {
 	const { laboratorios, labsUser, matricular, laboratoriosMatriculados } =
 	useLaboratorios(user.uid);
 
+	const { laboratorios: labsMatriculados } = labsUser;
+	
+	
 	const { onMatricula } = useMatricula();
+
+	const submitMatricula = (labs) => {
+		const labsDefinitivos = [...labsMatriculados, ...labs];
+		onMatricula(labsDefinitivos);
+		navigate("/");
+	};
 
 	return (
 		<Card
@@ -79,22 +88,23 @@ export const Matricula = () => {
 			>
 				<Table sx={{ minWidth: "100%" }} aria-label="simple table">
 					<TableBody>
-						{laboratorios.length !== 0 && laboratorios.map((lab, index) => (
-							<Laboratorio
-								key={index}
-								id={lab.id}
-								lab={lab.data}
-								labs={labsUser}
-								matricular={matricular}
-							/>
-						))}
+						{laboratorios.length !== 0 &&
+							laboratorios.map((lab, index) => (
+								<Laboratorio
+									key={index}
+									id={lab.id}
+									lab={lab.data}
+									matricular={matricular}
+									matriculado = {labsMatriculados !== undefined && labsMatriculados.find((laboratorio) => laboratorio.curso === lab.data.curso)}
+								/>
+							))}
 					</TableBody>
 				</Table>
 			</TableContainer>
 			<Button
 				variant="contained"
 				endIcon={<PasteClipboard height={20} width={20} />}
-				onClick={() => onMatricula(laboratoriosMatriculados)}
+				onClick={() => submitMatricula(laboratoriosMatriculados)}
 			>
 				Matricular
 			</Button>

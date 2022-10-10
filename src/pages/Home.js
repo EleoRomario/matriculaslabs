@@ -57,7 +57,9 @@ export const Home = () => {
 					alignItems: "center",
 				}}
 			>
-				<Avatar sx={{bgcolor: "primary.main"}}><User /></Avatar>
+				<Avatar sx={{ bgcolor: "primary.main" }}>
+					<User />
+				</Avatar>
 				<Typography variant="h5" component="h1" gutterBottom>
 					{displayName}
 				</Typography>
@@ -85,7 +87,7 @@ export const Home = () => {
 								))
 							) : (
 								<TableRow>
-									<TableCell>
+									<TableCell colSpan={2}>
 										<Skeleton />
 									</TableCell>
 								</TableRow>
