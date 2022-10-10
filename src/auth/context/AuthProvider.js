@@ -26,26 +26,29 @@ const init = () => {
 export const AuthProvider = ({ children }) => {
 	const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
-	const login = async () => {
-		const result = await signInWithGoogle();
+	const login = async (cui) => {
 		const q = query(
 			collection(db, "alumnos"),
-			where("email", "==", result.email)
+			where("cui", "==", cui)
 		);
 		const docs = await getDocs(q);
+
+		console.log(docs.empty);
 		docs.forEach((doc) => {
 			const user = {
-				...result,
+				...doc.data(),
 				uid: doc.id,
 			};
 			if (doc.exists()) {
 				dispatch({
 					type: types.login,
-					payload: result,
+					payload: user,
 				});
 				localStorage.setItem("user", JSON.stringify(user));
 			}
 		});
+
+
 	};
 
 	const logout = () => {

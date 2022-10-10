@@ -1,4 +1,5 @@
 import { Popover, TableCell, TableRow, Typography } from "@mui/material";
+import { green, grey } from "@mui/material/colors";
 import { ClipboardCheck } from "iconoir-react";
 import { useState } from "react";
 
@@ -16,13 +17,14 @@ export const LaboratorioView = ({ lab }) => {
 	const open = Boolean(anchorEl);
 	return (
 		<TableRow>
-			<TableCell sx={{ display: "flex", gap: 1 }}>
-				<ClipboardCheck />
+			<TableCell sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+				<ClipboardCheck color={green[900]} />
 				<Typography
 					aria-owns={open ? "mouse-over-popover" : undefined}
 					aria-haspopup="true"
 					onMouseEnter={handlePopoverOpen}
 					onMouseLeave={handlePopoverClose}
+					sx={{ color: grey[500] }}
 				>
 					{lab.curso}
 				</Typography>
@@ -50,7 +52,9 @@ export const LaboratorioView = ({ lab }) => {
 				</Popover>
 			</TableCell>
 			<TableCell sx={{ width: 150 }}>
-				<Typography>Grupo: {lab.grupo}</Typography>
+				<Typography sx={{ color: grey[500] }}>
+					Grupo: {lab.grupo}
+				</Typography>
 			</TableCell>
 		</TableRow>
 	);

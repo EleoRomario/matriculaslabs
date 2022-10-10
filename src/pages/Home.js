@@ -12,7 +12,7 @@ import {
 	TableRow,
 	Typography,
 } from "@mui/material";
-import { Plus } from "iconoir-react";
+import { Plus, User } from "iconoir-react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
@@ -25,7 +25,7 @@ export const Home = () => {
 
 	const { user } = useContext(AuthContext);
 
-	const { displayName, photoURL } = user;
+	const { displayName } = user;
 
 	const { labsUser } = useLaboratorios(user.uid);
 
@@ -57,7 +57,7 @@ export const Home = () => {
 					alignItems: "center",
 				}}
 			>
-				<Avatar src={`url("${photoURL}")`} />
+				<Avatar sx={{bgcolor: "primary.main"}}><User /></Avatar>
 				<Typography variant="h5" component="h1" gutterBottom>
 					{displayName}
 				</Typography>

@@ -1,15 +1,20 @@
-import { Avatar, Box, Button, Card, Typography } from "@mui/material";
-import { useContext } from "react";
+import { Avatar, Box, Button, Card, TextField, Typography } from "@mui/material";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IconGoogle } from "../../Icons/IconGoogle";
 import { AuthContext } from "../../auth/context/AuthContext";
 
 export const Login = () => {
 	const navigate = useNavigate();
 const { login } = useContext(AuthContext)
 
-const onLogin = async() => {
-	await login();
+const [cui, setCui] = useState("")
+
+const changeCui = (e) => {
+	setCui(e.target.value)
+}
+
+const onLogin = async () => {
+	await login(cui)
 	navigate("/");
 };
 
@@ -38,13 +43,20 @@ const onLogin = async() => {
 				<Typography component="p">
 					Matriculas de Laboratorios
 				</Typography>
+				<TextField id="outlined-basic" label="CUI" variant="outlined" value ={cui} onChange={changeCui} required />
 				<Button
+					onClick={onLogin}
+					variant="contained"
+				>
+					Ingresar
+					</Button>
+				{/* <Button
 					variant="outlined"
 					startIcon={<IconGoogle />}
 					onClick={onLogin}
 				>
 					Inicia sesion con cuenta institucional
-				</Button>
+				</Button> */}
 			</Box>
 		</Card>
 	);
