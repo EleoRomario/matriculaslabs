@@ -9,7 +9,7 @@ import {
 	IconButton,
 } from "@mui/material";
 import { ClockOutline, NavArrowLeft, PasteClipboard } from "iconoir-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/context/AuthContext";
 import { Horario } from "../components/Laboratorios/Horario";
@@ -34,7 +34,6 @@ export const Matricula = () => {
 
 	const { laboratorios: labsMatriculados } = labsUser;
 	
-	
 	const { onMatricula } = useMatricula();
 
 	const submitMatricula = (labs) => {
@@ -42,6 +41,21 @@ export const Matricula = () => {
 		onMatricula(labsDefinitivos);
 		navigate("/");
 	};
+
+	const [horarios, setHorarios] = useState([])
+	
+	const horariosLaboratorio = () => {
+		const h = laboratorios.map((lab) => lab.data.horario);
+		const labname = laboratorios.map((lab) => lab.data.curso);
+		const hs = h.map((horario) => {
+			const nameCurso = labname[h.indexOf(horario)]
+			return {...horario, curso: nameCurso}
+		});
+		setHorarios(hs);
+	};
+	useEffect(() => {
+		horariosLaboratorio();
+	}, [laboratorios]);
 
 	return (
 		<Card
@@ -95,7 +109,14 @@ export const Matricula = () => {
 									id={lab.id}
 									lab={lab.data}
 									matricular={matricular}
-									matriculado = {labsMatriculados !== undefined && labsMatriculados.find((laboratorio) => laboratorio.curso === lab.data.curso)}
+									matriculado={
+										labsMatriculados !== undefined &&
+										labsMatriculados.find(
+											(laboratorio) =>
+												laboratorio.curso ===
+												lab.data.curso
+										)
+									}
 								/>
 							))}
 					</TableBody>
@@ -108,7 +129,7 @@ export const Matricula = () => {
 			>
 				Matricular
 			</Button>
-			<Horario open={open} setOpen={setOpen} />
+			<Horario horarios={horarios} open={open} setOpen={setOpen} />
 		</Card>
 	);
 };
