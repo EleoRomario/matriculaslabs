@@ -1,11 +1,12 @@
 import { Avatar, Box, Button, Card, TextField, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useNavigation } from "react-router-dom";
 import { AuthContext } from "../../auth/context/AuthContext";
 
 export const Login = () => {
-	const navigate = useNavigate();
-const { login } = useContext(AuthContext)
+const { login, userExist } = useContext(AuthContext)
+
+const { navigate } = useNavigation()
 
 const [cui, setCui] = useState("")
 
@@ -15,7 +16,7 @@ const changeCui = (e) => {
 
 const onLogin = async () => {
 	await login(cui)
-	navigate("/");
+	userExist && navigate("/")
 };
 
 	return (

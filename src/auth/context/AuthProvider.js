@@ -1,11 +1,7 @@
-import {
-	collection,
-	getDocs,
-	query,
-	where,
-} from "firebase/firestore";
-import { useReducer } from "react";
-import { signInWithGoogle, logOut, db } from "../../firebase/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useReducer, useState } from "react";
+import toast from "react-hot-toast";
+import { logOut, db } from "../../firebase/firebase";
 import { types } from "../../types/types";
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "./authReducer";
@@ -26,19 +22,19 @@ const init = () => {
 export const AuthProvider = ({ children }) => {
 	const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
+	const [userExist, setUserExist] = useState(false);
+
 	const login = async (cui) => {
-		const q = query(
-			collection(db, "alumnos"),
-			where("cui", "==", cui)
-		);
+		const q = query(collection(db, "alumnos"), where("cui", "==", cui));
 		const docs = await getDocs(q);
 
-		console.log(docs.empty);
+		docs.empty && toast.error("El usuario no existe.");
 		docs.forEach((doc) => {
 			const user = {
 				...doc.data(),
 				uid: doc.id,
 			};
+			setUserExist(true);
 			if (doc.exists()) {
 				dispatch({
 					type: types.login,
@@ -47,8 +43,6 @@ export const AuthProvider = ({ children }) => {
 				localStorage.setItem("user", JSON.stringify(user));
 			}
 		});
-
-
 	};
 
 	const logout = () => {
@@ -59,10 +53,10 @@ export const AuthProvider = ({ children }) => {
 		});
 	};
 
-	
-
 	return (
-		<AuthContext.Provider value={{ ...authState, login, logout }}>
+		<AuthContext.Provider
+			value={{ ...authState, login, logout, userExist }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);
