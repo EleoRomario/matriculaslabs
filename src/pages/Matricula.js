@@ -35,11 +35,18 @@ export const Matricula = () => {
 	const { laboratorios: labsMatriculados } = labsUser;
 	
 	const { onMatricula } = useMatricula();
+	
 
 	const submitMatricula = (labs) => {
-		const labsDefinitivos = [...labsMatriculados, ...labs];
-		onMatricula(labsDefinitivos);
-		navigate("/");
+		if(labs.length > 0){			
+			const labsDefinitivos = [...labsMatriculados, ...labs]
+			console.log("🚀 ~ file: Matricula.js ~ line 79 ~ submitMatricula ~ labsDefinitivos", labsDefinitivos)
+			onMatricula(labsDefinitivos);
+			navigate("/");
+		}else{
+			onMatricula(labsMatriculados);
+			navigate("/");
+		}
 	};
 
 	const [horarios, setHorarios] = useState([])
@@ -109,14 +116,7 @@ export const Matricula = () => {
 									id={lab.id}
 									lab={lab.data}
 									matricular={matricular}
-									matriculado={
-										labsMatriculados !== undefined &&
-										labsMatriculados.find(
-											(laboratorio) =>
-												laboratorio.curso ===
-												lab.data.curso
-										)
-									}
+									matriculado={labsMatriculados}
 								/>
 							))}
 					</TableBody>

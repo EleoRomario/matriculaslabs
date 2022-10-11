@@ -48,16 +48,16 @@ export const Horario = (props) => {
 					<Table>
 						<TableHead>
 							<TableRow>
-								{daysWeek.map((day, i) => (
-									<TableCell key={i}>{day}</TableCell>
+								{daysWeek.map((day, id) => (
+									<TableCell key={id}>{day}</TableCell>
 								))}
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{horas.map((hora, i) => (
-								<TableRow key={i}>
-									{daysWeek.map((day, i) => (
-										<TableCell key={i} sx={{maxWidth: 100}} >
+							{horas.map((hora, ih) => (
+								<TableRow key={ih}>
+									{daysWeek.map((day, idw) => (
+										<TableCell key={idw} sx={{maxWidth: 100}} >
 											<Typography
 												component="span"
 												sx={{

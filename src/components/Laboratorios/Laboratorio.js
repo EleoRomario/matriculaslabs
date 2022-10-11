@@ -2,6 +2,7 @@ import {
 	Alert,
 	AlertTitle,
 	Box,
+	Button,
 	FormControl,
 	InputLabel,
 	MenuItem,
@@ -11,7 +12,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { grey, red } from "@mui/material/colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Laboratorio = ({ id, lab, matricular, matriculado }) => {
 	const { grupos, año, curso } = lab;
@@ -34,9 +35,24 @@ export const Laboratorio = ({ id, lab, matricular, matriculado }) => {
 		matricular(newLab);
 	};
 
+	const [isMatriculado, setIsMatriculado] = useState(false);
+
+	const handleGrupo = () => {
+		setIsMatriculado(false);
+	};
+	useEffect(() => {
+		if (matriculado !== undefined) {
+			const isMatriculado = matriculado.find((m) => m.curso === curso);
+			if (isMatriculado !== undefined) {
+				setIsMatriculado(true);
+			}
+		}
+	}, [matriculado]);
+
+
 	return (
 		<>
-			{!matriculado ? (
+			{!isMatriculado ? (
 				<TableRow>
 					<TableCell>
 						<Typography>{curso}</Typography>
@@ -92,7 +108,18 @@ export const Laboratorio = ({ id, lab, matricular, matriculado }) => {
 			) : (
 				<TableRow>
 					<TableCell colSpan={2}>
-						<Alert severity="success">
+						<Alert
+							severity="success"
+							// action={
+							// 	<Button
+							// 		color="inherit"
+							// 		size="small"
+							// 		// onClick={() => handleGrupo()}
+							// 	>
+							// 		Cambiar grupo
+							// 	</Button>
+							// }
+						>
 							<AlertTitle sx={{ fontWeight: "600" }}>
 								Matriculado
 							</AlertTitle>{" "}
